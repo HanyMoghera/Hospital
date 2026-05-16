@@ -202,6 +202,21 @@ export const sections = [
     ],
   },
   {
+    id: "restraint",
+    title: "Restraint",
+    icon: "🔗",
+    image: "/restraint.png",
+    groups: [
+      {
+        name: "Restraint",
+        items: [
+          { name: "Restraint consent", note: "" },
+          { name: "Physical restraint sheet", note: "" },
+        ],
+      },
+    ],
+  },
+  {
     id: "or",
     title: "Operating room (OR)",
     icon: "🏥",

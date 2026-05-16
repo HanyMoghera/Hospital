@@ -106,7 +106,7 @@ export default function App() {
           <nav className="nav-scroll" aria-label="Section navigation">
             {sections.map((s) => (
               <a key={s.id} className="nav-link" href={`#${s.id}`}>
-                {s.title.split(" —")[0]}
+                {s.title}
               </a>
             ))}
           </nav>
@@ -138,16 +138,6 @@ export default function App() {
           <SectionBlock key={section.id} section={section} index={index} />
         ))}
       </main>
-
-      <footer className="site-footer">
-        <p>
-          Reference layout for <strong>hospital documentation workflows</strong>. Deploy on{" "}
-          <a href="https://vercel.com" target="_blank" rel="noreferrer">
-            Vercel
-          </a>{" "}
-          with the default Vite preset.
-        </p>
-      </footer>
     </div>
   );
 }

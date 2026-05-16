@@ -4,7 +4,7 @@ export const hero = {
   title: "Clinical Documentation",
   subtitle: "Forms guide for ER admission through ICU, OR, transfer, and discharge",
   image:
-    "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=2000&q=80",
+    "https://assetsegyhealthgate.s3.eu-west-1.amazonaws.com/SaudiGermanyHospital.webp",
 };
 
 export const sections = [
@@ -52,6 +52,36 @@ export const sections = [
     ],
   },
   {
+    id: "medical-admission",
+    title: "Medical — during admission",
+    icon: "📋",
+    image:
+      "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1200&q=80",
+    groups: [
+      {
+        name: "Core medical documentation",
+        items: [
+          { name: "Initial medical assessment", note: "" },
+          { name: "Medical progress note", note: "" },
+          { name: "Problem list", note: "" },
+          { name: "Physician order", note: "" },
+          { name: "Physician care plan", note: "" },
+          { name: "Medication reconciliation", note: "" },
+          { name: "VTE", note: "" },
+          { name: "SOFA", note: "" },
+          { name: "APACHE", note: "" },
+          { name: "Interdisciplinary patient and family education", note: "" },
+          {
+            name: "Reserved antimicrobial dispensing",
+            note: "If antibiotics added at MAR",
+          },
+          { name: "Human albumin form", note: "If albumin ordered" },
+          { name: "Co-management", note: "If another specialty co-manages" },
+        ],
+      },
+    ],
+  },
+  {
     id: "blood",
     title: "Blood transfusion",
     icon: "🩸",
@@ -69,6 +99,10 @@ export const sections = [
           { name: "Blood reservation", note: "Reserve full amount needed" },
           { name: "Blood dispensing", note: "Dispense units needed now" },
           { name: "Blood transfusion checklist and monitoring form", note: "" },
+          {
+            name: "Blood transfusion reaction record",
+            note: "If any blood transfusion reaction happened",
+          },
         ],
       },
     ],
@@ -128,36 +162,6 @@ export const sections = [
     ],
   },
   {
-    id: "medical-admission",
-    title: "Medical — during admission",
-    icon: "📋",
-    image:
-      "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1200&q=80",
-    groups: [
-      {
-        name: "Core medical documentation",
-        items: [
-          { name: "Initial medical assessment", note: "" },
-          { name: "Medical progress note", note: "" },
-          { name: "Problem list", note: "" },
-          { name: "Physician order", note: "" },
-          { name: "Physician care plan", note: "" },
-          { name: "Medication reconciliation", note: "" },
-          { name: "VTE", note: "" },
-          { name: "SOFA", note: "" },
-          { name: "APACHE", note: "" },
-          { name: "Interdisciplinary patient and family education", note: "" },
-          {
-            name: "Reserved antimicrobial dispensing",
-            note: "If antibiotics added at MAR",
-          },
-          { name: "Human albumin form", note: "If albumin ordered" },
-          { name: "Co-management", note: "If another specialty co-manages" },
-        ],
-      },
-    ],
-  },
-  {
     id: "procedures",
     title: "Procedures & lines",
     icon: "⚕️",
@@ -183,11 +187,11 @@ export const sections = [
       },
       {
         name: "Tapping",
-        items: [{ name: "Invasive procedure", note: "" }],
+        items: [{ name: "Invasive procedure", note: "+ surgical consent" }],
       },
       {
         name: "Chest tube",
-        items: [{ name: "Invasive procedure", note: "" }],
+        items: [{ name: "Invasive procedure", note: "+ surgical consent" }],
       },
       {
         name: "IV line insertion",
@@ -203,7 +207,7 @@ export const sections = [
     title: "Operating room (OR)",
     icon: "🏥",
     image:
-      "https://images.unsplash.com/photo-1512678081031-9a6f1365bd04?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&q=80",
     groups: [
       {
         name: "A) Consent",

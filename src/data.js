@@ -3,8 +3,7 @@
 export const hero = {
   title: "Clinical Documentation",
   subtitle: "Forms guide for ER admission through ICU, OR, transfer, and discharge",
-  image:
-    "https://assetsegyhealthgate.s3.eu-west-1.amazonaws.com/SaudiGermanyHospital.webp",
+  image: "/hero-cover.jpg",
 };
 
 export const sections = [
@@ -206,8 +205,7 @@ export const sections = [
     id: "or",
     title: "Operating room (OR)",
     icon: "🏥",
-    image:
-      "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&q=80",
+    image: "/operating-room.png",
     groups: [
       {
         name: "A) Consent",

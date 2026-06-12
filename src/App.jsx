@@ -2,7 +2,21 @@ import { useEffect, useRef, useState } from "react";
 import { hero, sections } from "./data.js";
 import "./App.css";
 
-function SectionBlock({ section, index }) {
+function PdfModal({ fileUrl, onClose }) {
+  if (!fileUrl) return null;
+  return (
+    <div className="pdf-modal-overlay" onClick={onClose}>
+      <div className="pdf-modal-content" onClick={(e) => e.stopPropagation()}>
+        <button className="pdf-modal-close" onClick={onClose} aria-label="Close modal">
+          &times;
+        </button>
+        <iframe src={fileUrl} className="pdf-iframe" title="PDF Viewer" />
+      </div>
+    </div>
+  );
+}
+
+function SectionBlock({ section, index, onOpenFile }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
@@ -68,6 +82,16 @@ function SectionBlock({ section, index }) {
                       <strong>{item.name}</strong>
                       {item.note ? <span className="note">{item.note}</span> : null}
                     </div>
+                    {item.file && (
+                      <button 
+                        className="form-item-action" 
+                        onClick={() => onOpenFile(item.file)}
+                        title="View Document"
+                        aria-label={`View ${item.name}`}
+                      >
+                        📄
+                      </button>
+                    )}
                   </li>
                 );
               })}
@@ -81,6 +105,7 @@ function SectionBlock({ section, index }) {
 
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
+  const [openFile, setOpenFile] = useState(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -135,9 +160,10 @@ export default function App() {
 
       <main className="sections">
         {sections.map((section, index) => (
-          <SectionBlock key={section.id} section={section} index={index} />
+          <SectionBlock key={section.id} section={section} index={index} onOpenFile={setOpenFile} />
         ))}
       </main>
+      <PdfModal fileUrl={openFile} onClose={() => setOpenFile(null)} />
     </div>
   );
 }

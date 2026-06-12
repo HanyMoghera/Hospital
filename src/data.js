@@ -42,7 +42,7 @@ export const sections = [
       {
         name: "Investigation forms",
         items: [
-          { name: "ICU laboratory work-up sheet", note: "" },
+          { name: "ICU laboratory work-up sheet", note: "", file: "/lab-workup.pdf" },
           { name: "ICU blood gases work-up sheet", note: "" },
           { name: "Culture sheet", note: "" },
           { name: "Critical value results", note: "" },

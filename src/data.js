@@ -3,7 +3,7 @@
 export const hero = {
   title: "Clinical Documentation",
   subtitle: "Forms guide for ER admission through ICU, OR, transfer, and discharge",
-  image: "/hero-cover.jpg",
+  image: "/hero-cover.svg",
 };
 
 export const sections = [

@@ -144,6 +144,10 @@ export default function App() {
           <div className="hero-overlay" />
         </div>
         <div className="hero-content">
+          <div className="nurse-badge">
+            <span className="nurse-badge-icon">👨‍⚕️</span>
+            Curated by Nurse Yahia Mohamed
+          </div>
           <p className="hero-kicker">ER → ICU → OR → Ward → Home</p>
           <h1 id="hero-title">{hero.title}</h1>
           <p className="hero-lead">{hero.subtitle}</p>

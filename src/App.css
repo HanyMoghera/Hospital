@@ -187,6 +187,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: calc(50% + 100px) calc(50% - 100px);
   transform: scale(1.06);
   animation: hero-zoom 22s ease-in-out infinite alternate;
 }
@@ -227,6 +228,27 @@
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
+}
+
+.nurse-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  background: rgba(45, 212, 191, 0.1);
+  border: 1px solid rgba(45, 212, 191, 0.25);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  animation: fade-in 0.8s 0.1s both;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(45, 212, 191, 0.05);
+}
+
+.nurse-badge-icon {
+  font-size: 1.15rem;
 }
 
 .hero-kicker {

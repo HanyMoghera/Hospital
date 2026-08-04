@@ -16,7 +16,7 @@ const slugify = (value) => value.toLowerCase().replace(/\s+/g, "-");
 
 function getRoute() {
   const route = window.location.hash.replace(/^#\/?/, "");
-  return route || "methods/inservice";
+  return route || "methods";
 }
 
 function PdfModal({ fileUrl, onClose }) {
@@ -143,6 +143,30 @@ function InservicePage({ navigate }) {
   );
 }
 
+function MaterialsPage({ navigate }) {
+  const materialSections = [
+    { title: "Inservice", description: "Clinical departments and inservice education", icon: "✚", path: "methods/inservice" },
+    { title: "CNE", description: "Monthly continuing nursing education topics", icon: "◫", path: "methods/cne" },
+    { title: "Tests", description: "Online assessments and knowledge checks", icon: "✓", path: "tests" },
+  ];
+
+  return (
+    <main className="portal-page">
+      <PageIntro eyebrow="CNE Guide" title="Materials"
+        description="Choose a section to explore its nursing education materials." />
+      <div className="directory-grid materials-grid">
+        {materialSections.map((section) => (
+          <button className="directory-card" key={section.title} onClick={() => navigate(section.path)}>
+            <span className="directory-icon" aria-hidden>{section.icon}</span>
+            <span><strong>{section.title}</strong><small>{section.description}</small></span>
+            <span aria-hidden>→</span>
+          </button>
+        ))}
+      </div>
+    </main>
+  );
+}
+
 function DepartmentPage({ department, navigate }) {
   return (
     <main className="portal-page">
@@ -225,17 +249,10 @@ function PortalHeader({ route, navigate, scrolled }) {
   return (
     <header className={`site-header portal-header${scrolled ? " is-scrolled" : ""}`}>
       <div className="header-inner">
-        <button className="brand brand-button" onClick={() => go("methods/inservice")}><span className="brand-mark" aria-hidden>✚</span><span>CNE Guide</span></button>
+        <button className="brand brand-button" onClick={() => go("methods")}><span className="brand-mark" aria-hidden>✚</span><span>CNE Guide</span></button>
         <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-label="Toggle navigation"><span /><span /><span /></button>
         <nav className={`primary-nav${menuOpen ? " is-open" : ""}`} aria-label="Primary navigation">
-          <div className={`nav-dropdown${route.startsWith("methods") ? " is-active" : ""}`}>
-            <button>Materials <span aria-hidden>⌄</span></button>
-            <div className="dropdown-panel">
-              <div><button className="dropdown-heading" onClick={() => go("methods/inservice")}>Inservice</button>{departments.map((item) => <button key={item} onClick={() => go(`methods/inservice/${slugify(item)}`)}>{item}</button>)}</div>
-              <div><button className="dropdown-heading" onClick={() => go("methods/cne")}>CNE</button>{months.map((item) => <button key={item} onClick={() => go(`methods/cne/${slugify(item)}`)}>{item}</button>)}</div>
-              <div><button className="dropdown-heading" onClick={() => go("methods/text-books")}>Text Books</button></div>
-            </div>
-          </div>
+          <button className={route.startsWith("methods") ? "is-active" : ""} onClick={() => go("methods")}>Materials</button>
           <button className={route === "free-courses" ? "is-active" : ""} onClick={() => go("free-courses")}>Free Courses</button>
           <button className={route === "tests" ? "is-active" : ""} onClick={() => go("tests")}>Tests</button>
         </nav>
@@ -257,7 +274,8 @@ export default function App() {
   const navigate = (path) => { if (getRoute() === path) { setRoute(path); window.scrollTo(0, 0); } else window.location.hash = `/${path}`; };
 
   let page;
-  if (route === "methods/inservice") page = <InservicePage navigate={navigate} />;
+  if (route === "methods") page = <MaterialsPage navigate={navigate} />;
+  else if (route === "methods/inservice") page = <InservicePage navigate={navigate} />;
   else if (route === "methods/inservice/icu") page = <IcuPage navigate={navigate} />;
   else if (route.startsWith("methods/inservice/")) {
     const slug = route.split("/").at(-1); const department = departments.find((item) => slugify(item) === slug) || "Department";

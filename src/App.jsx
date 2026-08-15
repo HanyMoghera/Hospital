@@ -126,7 +126,7 @@ function EmptyState({ icon, title, message }) {
 
 function HomePage({ navigate }) {
   const primarySections = [
-    { title: "Methods", description: "Materials, CNE topics, and text books", icon: "✚", path: "methods" },
+    { title: "Methods", description: "Materials, CNE topics, and text books", icon: "◆", path: "methods" },
     { title: "Free Courses", description: "Explore free learning opportunities", icon: "▶", path: "free-courses" },
     { title: "Tests", description: "Assessments and knowledge checks", icon: "✓", path: "tests" },
   ];
@@ -158,7 +158,7 @@ function MaterialsPage({ navigate }) {
         {departments.map((department) => (
           <button className="directory-card" key={department}
             onClick={() => navigate(`methods/materials/${slugify(department)}`)}>
-            <span className="directory-icon" aria-hidden>{department === "ICU" ? "✚" : "◇"}</span>
+            <span className="directory-icon" aria-hidden>{department === "ICU" ? "♥" : "◇"}</span>
             <span><strong>{department}</strong><small>{department === "ICU" ? "Clinical guide available" : "Under preparation"}</small></span>
             <span aria-hidden>→</span>
           </button>
@@ -170,7 +170,7 @@ function MaterialsPage({ navigate }) {
 
 function MethodsPage({ navigate }) {
   const materialSections = [
-    { title: "Materials", description: "Clinical departments and education materials", icon: "✚", path: "methods/materials" },
+    { title: "Materials", description: "Clinical departments and education materials", icon: "▤", path: "methods/materials" },
     { title: "CNE", description: "Monthly continuing nursing education topics", icon: "◫", path: "methods/cne" },
     { title: "Text Books", description: "Books, PDFs, and nursing references", icon: "▤", path: "methods/text-books" },
   ];
@@ -197,7 +197,7 @@ function DepartmentPage({ department, navigate }) {
     <main className="portal-page">
       <button className="back-link" onClick={() => navigate("methods/materials")}>← All departments</button>
       <PageIntro eyebrow="Methods · Materials" title={department} />
-      <EmptyState icon="✚" title={department} message="This section is under preparation." />
+      <EmptyState icon="◇" title={department} message="This section is under preparation." />
     </main>
   );
 }
@@ -295,7 +295,7 @@ function PortalHeader({ route, navigate, scrolled }) {
   return (
     <header className={`site-header portal-header${scrolled ? " is-scrolled" : ""}`}>
       <div className="header-inner">
-        <button className="brand brand-button" onClick={() => go("home")}><span className="brand-mark" aria-hidden>✚</span><span>CNE Guide</span></button>
+        <button className="brand brand-button" onClick={() => go("home")}><span className="brand-mark" aria-hidden>♥</span><span>CNE Guide</span></button>
         <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-label="Toggle navigation"><span /><span /><span /></button>
         <nav className={`primary-nav${menuOpen ? " is-open" : ""}`} aria-label="Primary navigation">
           <button className={route.startsWith("methods") ? "is-active" : ""} onClick={() => go("methods")}>Methods</button>

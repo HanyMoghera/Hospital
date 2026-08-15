@@ -186,11 +186,11 @@ export const sections = [
       },
       {
         name: "Tapping",
-        items: [{ name: "Invasive procedure", note: "+ surgical consent" }],
+        items: [{ name: "Invasive procedure", note: "and surgical consent" }],
       },
       {
         name: "Chest tube",
-        items: [{ name: "Invasive procedure", note: "+ surgical consent" }],
+        items: [{ name: "Invasive procedure", note: "and surgical consent" }],
       },
       {
         name: "IV line insertion",

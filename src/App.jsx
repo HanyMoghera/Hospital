@@ -16,7 +16,7 @@ const slugify = (value) => value.toLowerCase().replace(/\s+/g, "-");
 
 function getRoute() {
   const route = window.location.hash.replace(/^#\/?/, "");
-  return route || "methods";
+  return route || "home";
 }
 
 function PdfModal({ fileUrl, onClose }) {
@@ -124,15 +124,40 @@ function EmptyState({ icon, title, message }) {
   );
 }
 
-function InservicePage({ navigate }) {
+function HomePage({ navigate }) {
+  const primarySections = [
+    { title: "Methods", description: "Materials, CNE topics, and text books", icon: "✚", path: "methods" },
+    { title: "Free Courses", description: "Explore free learning opportunities", icon: "▶", path: "free-courses" },
+    { title: "Tests", description: "Assessments and knowledge checks", icon: "✓", path: "tests" },
+  ];
+
+  return (
+    <main className="landing-page">
+      <section className="landing-cover" aria-label="CNE Guide">
+        <img src="/cover.png" alt="Saudi German Health CNE Guide" fetchPriority="high" />
+      </section>
+      <section className="landing-tabs" aria-label="Main sections">
+        {primarySections.map((section) => (
+          <button key={section.title} className="landing-tab" onClick={() => navigate(section.path)}>
+            <span className="landing-tab-icon" aria-hidden>{section.icon}</span>
+            <span><strong>{section.title}</strong><small>{section.description}</small></span>
+            <span className="landing-tab-arrow" aria-hidden>→</span>
+          </button>
+        ))}
+      </section>
+    </main>
+  );
+}
+
+function MaterialsPage({ navigate }) {
   return (
     <main className="portal-page">
-      <PageIntro eyebrow="Materials · Inservice" title="Inservice Departments"
+      <PageIntro eyebrow="Methods · Materials" title="Departments"
         description="Choose a clinical department to explore its nursing education materials." />
       <div className="directory-grid">
         {departments.map((department) => (
           <button className="directory-card" key={department}
-            onClick={() => navigate(`methods/inservice/${slugify(department)}`)}>
+            onClick={() => navigate(`methods/materials/${slugify(department)}`)}>
             <span className="directory-icon" aria-hidden>{department === "ICU" ? "✚" : "◇"}</span>
             <span><strong>{department}</strong><small>{department === "ICU" ? "Clinical guide available" : "Under preparation"}</small></span>
             <span aria-hidden>→</span>
@@ -143,17 +168,17 @@ function InservicePage({ navigate }) {
   );
 }
 
-function MaterialsPage({ navigate }) {
+function MethodsPage({ navigate }) {
   const materialSections = [
-    { title: "Inservice", description: "Clinical departments and inservice education", icon: "✚", path: "methods/inservice" },
+    { title: "Materials", description: "Clinical departments and education materials", icon: "✚", path: "methods/materials" },
     { title: "CNE", description: "Monthly continuing nursing education topics", icon: "◫", path: "methods/cne" },
-    { title: "Tests", description: "Online assessments and knowledge checks", icon: "✓", path: "tests" },
+    { title: "Text Books", description: "Books, PDFs, and nursing references", icon: "▤", path: "methods/text-books" },
   ];
 
   return (
     <main className="portal-page">
-      <PageIntro eyebrow="CNE Guide" title="Materials"
-        description="Choose a section to explore its nursing education materials." />
+      <PageIntro eyebrow="CNE Guide" title="Methods"
+        description="Choose Materials, CNE, or Text Books." />
       <div className="directory-grid materials-grid">
         {materialSections.map((section) => (
           <button className="directory-card" key={section.title} onClick={() => navigate(section.path)}>
@@ -170,8 +195,8 @@ function MaterialsPage({ navigate }) {
 function DepartmentPage({ department, navigate }) {
   return (
     <main className="portal-page">
-      <button className="back-link" onClick={() => navigate("methods/inservice")}>← All departments</button>
-      <PageIntro eyebrow="Materials · Inservice" title={department} />
+      <button className="back-link" onClick={() => navigate("methods/materials")}>← All departments</button>
+      <PageIntro eyebrow="Methods · Materials" title={department} />
       <EmptyState icon="✚" title={department} message="This section is under preparation." />
     </main>
   );
@@ -181,8 +206,8 @@ function CnePage({ month, navigate }) {
   if (!month) {
     return (
       <main className="portal-page">
-        <PageIntro eyebrow="Materials · CNE" title="Continuing Nursing Education"
-          description="Select a month to view its educational topic and resources." />
+        <PageIntro eyebrow="Methods · CNE" title="Continuing Nursing Education"
+          description="Select a month, then add a topic for every department." />
         <div className="month-grid">
           {months.map((item) => <button key={item} onClick={() => navigate(`methods/cne/${slugify(item)}`)}>{item}</button>)}
         </div>
@@ -193,12 +218,33 @@ function CnePage({ month, navigate }) {
   return (
     <main className="portal-page">
       <button className="back-link" onClick={() => navigate("methods/cne")}>← All months</button>
-      <PageIntro eyebrow="Materials · CNE" title={month} />
-      <section className="content-panel">
-        <div className="content-panel-head"><span aria-hidden>◫</span><div><h2>Monthly Topic</h2><p>Educational materials for {month}</p></div></div>
-        <div className="content-dropzone"><span aria-hidden>＋</span><p>Future articles, PDFs, presentations, and announcements will appear here.</p></div>
-      </section>
+      <PageIntro eyebrow="Methods · CNE" title={month}
+        description={`Add the ${month} topic for each department. Topics are saved on this device.`} />
+      <div className="topic-grid">
+        {departments.map((department) => (
+          <MonthlyTopicCard key={department} month={month} department={department} />
+        ))}
+      </div>
     </main>
+  );
+}
+
+function MonthlyTopicCard({ month, department }) {
+  const storageKey = `cne-topic:${slugify(month)}:${slugify(department)}`;
+  const [topic, setTopic] = useState(() => localStorage.getItem(storageKey) || "");
+  const updateTopic = (value) => {
+    setTopic(value);
+    if (value.trim()) localStorage.setItem(storageKey, value);
+    else localStorage.removeItem(storageKey);
+  };
+
+  return (
+    <article className="topic-card">
+      <label htmlFor={storageKey}>{department}</label>
+      <input id={storageKey} value={topic} onChange={(event) => updateTopic(event.target.value)}
+        placeholder="Write month topic" aria-label={`${month} topic for ${department}`} />
+      <small>{topic ? "Saved on this device" : "No topic added yet"}</small>
+    </article>
   );
 }
 
@@ -227,7 +273,7 @@ function IcuPage({ navigate }) {
   const [openFile, setOpenFile] = useState(null);
   return (
     <>
-      <div className="icu-toolbar"><button className="back-link" onClick={() => navigate("methods/inservice")}>← All departments</button><span>Materials · Inservice · ICU</span></div>
+      <div className="icu-toolbar"><button className="back-link" onClick={() => navigate("methods/materials")}>← All departments</button><span>Methods · Materials · ICU</span></div>
       <section className="hero" aria-labelledby="hero-title">
         <div className="hero-media" aria-hidden><img src={hero.image} alt="" fetchPriority="high" decoding="async" /><div className="hero-overlay" /></div>
         <div className="hero-content">
@@ -249,10 +295,10 @@ function PortalHeader({ route, navigate, scrolled }) {
   return (
     <header className={`site-header portal-header${scrolled ? " is-scrolled" : ""}`}>
       <div className="header-inner">
-        <button className="brand brand-button" onClick={() => go("methods")}><span className="brand-mark" aria-hidden>✚</span><span>CNE Guide</span></button>
+        <button className="brand brand-button" onClick={() => go("home")}><span className="brand-mark" aria-hidden>✚</span><span>CNE Guide</span></button>
         <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-label="Toggle navigation"><span /><span /><span /></button>
         <nav className={`primary-nav${menuOpen ? " is-open" : ""}`} aria-label="Primary navigation">
-          <button className={route.startsWith("methods") ? "is-active" : ""} onClick={() => go("methods")}>Materials</button>
+          <button className={route.startsWith("methods") ? "is-active" : ""} onClick={() => go("methods")}>Methods</button>
           <button className={route === "free-courses" ? "is-active" : ""} onClick={() => go("free-courses")}>Free Courses</button>
           <button className={route === "tests" ? "is-active" : ""} onClick={() => go("tests")}>Tests</button>
         </nav>
@@ -274,10 +320,11 @@ export default function App() {
   const navigate = (path) => { if (getRoute() === path) { setRoute(path); window.scrollTo(0, 0); } else window.location.hash = `/${path}`; };
 
   let page;
-  if (route === "methods") page = <MaterialsPage navigate={navigate} />;
-  else if (route === "methods/inservice") page = <InservicePage navigate={navigate} />;
-  else if (route === "methods/inservice/icu") page = <IcuPage navigate={navigate} />;
-  else if (route.startsWith("methods/inservice/")) {
+  if (route === "home") page = <HomePage navigate={navigate} />;
+  else if (route === "methods") page = <MethodsPage navigate={navigate} />;
+  else if (route === "methods/materials" || route === "methods/inservice") page = <MaterialsPage navigate={navigate} />;
+  else if (route === "methods/materials/icu" || route === "methods/inservice/icu") page = <IcuPage navigate={navigate} />;
+  else if (route.startsWith("methods/materials/") || route.startsWith("methods/inservice/")) {
     const slug = route.split("/").at(-1); const department = departments.find((item) => slugify(item) === slug) || "Department";
     page = <DepartmentPage department={department} navigate={navigate} />;
   } else if (route === "methods/cne" || route.startsWith("methods/cne/")) {
@@ -286,7 +333,7 @@ export default function App() {
   } else if (route === "methods/text-books") page = <ResourcePage type="books" />;
   else if (route === "free-courses") page = <ResourcePage type="courses" />;
   else if (route === "tests") page = <ResourcePage type="tests" />;
-  else page = <InservicePage navigate={navigate} />;
+  else page = <HomePage navigate={navigate} />;
 
   return <div className="app"><div className="bg-mesh" aria-hidden /><div className="floating-orb floating-orb--1" aria-hidden /><div className="floating-orb floating-orb--2" aria-hidden /><PortalHeader route={route} navigate={navigate} scrolled={scrolled} />{page}</div>;
 }

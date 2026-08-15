@@ -271,6 +271,9 @@ function ResourcePage({ type }) {
 
 function IcuPage({ navigate }) {
   const [openFile, setOpenFile] = useState(null);
+  const scrollToSection = (sectionId) => {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
   return (
     <>
       <div className="icu-toolbar"><button className="back-link" onClick={() => navigate("methods/materials")}>← All departments</button><span>Methods · Materials · ICU</span></div>
@@ -280,9 +283,19 @@ function IcuPage({ navigate }) {
           <div className="nurse-badge"><span className="nurse-badge-icon">👨‍⚕️</span>Curated by Nurse Yahia Mohamed</div>
           <p className="hero-kicker">ER → ICU → OR → Ward → Home</p>
           <h1 id="hero-title">{hero.title}</h1><p className="hero-lead">{hero.subtitle}</p>
-          <div className="hero-actions"><a className="btn btn-primary" href="#nursing-er">Browse nursing forms</a><a className="btn btn-ghost" href="#discharge">Jump to discharge</a></div>
+          <div className="hero-actions"><button className="btn btn-primary" onClick={() => scrollToSection("nursing-er")}>Browse nursing forms</button><button className="btn btn-ghost" onClick={() => scrollToSection("discharge")}>Jump to discharge</button></div>
         </div>
       </section>
+      <nav className="icu-section-nav" aria-label="ICU page sections">
+        <div className="nav-scroll">
+          {sections.map((section) => (
+            <button key={section.id} className="nav-link" onClick={() => scrollToSection(section.id)}>
+              <span aria-hidden>{section.icon}</span>
+              {section.title}
+            </button>
+          ))}
+        </div>
+      </nav>
       <main className="sections">{sections.map((section, index) => <SectionBlock key={section.id} section={section} index={index} onOpenFile={setOpenFile} />)}</main>
       <PdfModal fileUrl={openFile} onClose={() => setOpenFile(null)} />
     </>

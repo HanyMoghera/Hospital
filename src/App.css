@@ -136,7 +136,12 @@
 
 .nav-link {
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
   padding: 0.45rem 0.85rem;
+  background: transparent;
+  cursor: pointer;
   border-radius: 999px;
   font-size: 0.8rem;
   font-weight: 500;
@@ -367,7 +372,7 @@ main.sections {
 
 .section-block {
   margin-bottom: 4.5rem;
-  scroll-margin-top: 88px;
+  scroll-margin-top: 140px;
 }
 
 .section-block.reveal {
@@ -719,6 +724,10 @@ button { font: inherit; }
 .content-dropzone span { font-size: 2rem; color: var(--accent); }
 .future-card-sample { display: none; }
 .icu-toolbar { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 1rem 1.25rem 0; display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: .85rem; }
+.icu-section-nav { position: sticky; top: 68px; z-index: 90; width: min(1200px, calc(100% - 2.5rem)); margin: 0 auto 2rem; padding: .55rem .65rem; overflow: hidden; background: rgba(6, 26, 24, .92); border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 12px 35px rgba(0, 0, 0, .22); backdrop-filter: blur(16px); }
+.icu-section-nav .nav-scroll { max-width: none; }
+.icu-section-nav .nav-link { color: var(--text-muted); border: 1px solid transparent; }
+.icu-section-nav .nav-link:hover { color: var(--text); background: var(--accent-soft); border-color: var(--border); }
 
 /* Main landing page */
 .landing-page { position: relative; z-index: 1; width: min(1200px, calc(100% - 2.5rem)); margin: 0 auto; padding: clamp(1.5rem, 4vw, 3rem) 0 5rem; }
@@ -762,4 +771,5 @@ button { font: inherit; }
   .landing-tabs, .topic-grid { grid-template-columns: 1fr; }
   .landing-tab { min-height: 100px; }
   .icu-toolbar span { display: none; }
+  .icu-section-nav { top: 68px; width: calc(100% - 1rem); margin-top: .5rem; border-radius: 13px; }
 }
